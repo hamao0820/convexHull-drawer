@@ -32,8 +32,8 @@ func TestLe(t *testing.T) {
 	}{
 		{"p1 < p2", args{Point{1, 2}, Point{3, 4}}, true},
 		{"p1 > p2", args{Point{3, 4}, Point{1, 2}}, false},
-		{"p1.X == p2.X, p1.Y < p2.Y", args{Point{1, 2}, Point{1, 3}}, true},
-		{"p1.X == p2.X, p1.Y > p2.Y", args{Point{1, 3}, Point{1, 2}}, false},
+		{"p1.Y == p2.Y, p1 < p2", args{Point{1, 3}, Point{3, 3}}, true},
+		{"p1.Y == p2.Y, p1 > p2", args{Point{3, 3}, Point{1, 3}}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
