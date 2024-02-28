@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 type Point struct {
 	X, Y int
 }
@@ -25,4 +27,12 @@ func Le(p1, p2 Point) bool {
 
 func Cross(p1, p2 Point) int {
 	return p1.X*p2.Y - p1.Y*p2.X
+}
+
+// p1からp2(p1<p2)への角度
+func ElevationAngle(p1, p2 Point) float64 {
+	if Le(p2, p1) {
+		p1, p2 = p2, p1
+	}
+	return math.Atan2(float64(p2.Y-p1.Y), float64(p2.X-p1.X))
 }
