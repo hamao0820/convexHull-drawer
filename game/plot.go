@@ -8,6 +8,11 @@ import (
 	"github.com/hamao0820/convexHull-drawer/graham"
 )
 
+var (
+	NormalColor = color.Black
+	ConvexColor = color.RGBA{255, 0, 0, 255}
+)
+
 type Plot struct {
 	*graham.Point
 	c        color.Color
@@ -24,7 +29,7 @@ func NewPlot(x, y int) *Plot {
 	plotID++
 	return &Plot{
 		Point:    graham.NewPoint(x, y),
-		c:        color.Black,
+		c:        NormalColor,
 		isConvex: false,
 		id:       plotID,
 		r:        4,
@@ -33,9 +38,9 @@ func NewPlot(x, y int) *Plot {
 
 func (p *Plot) Update() error {
 	if p.isConvex {
-		p.c = color.RGBA{255, 0, 0, 255}
+		p.c = ConvexColor
 	} else {
-		p.c = color.Black
+		p.c = NormalColor
 	}
 	return nil
 }

@@ -1,9 +1,11 @@
 package game
 
 import (
+	"fmt"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hamao0820/convexHull-drawer/graham"
 )
@@ -12,6 +14,12 @@ const (
 	ScreenWidth  = 640
 	ScreenHeight = 480
 )
+
+var textArea = ebiten.NewImage(ScreenWidth, 15)
+
+func init() {
+	textArea.Fill(color.Black)
+}
 
 type Game struct {
 	plots      []*Plot
@@ -57,6 +65,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for i := range g.plots {
 		g.plots[i].Draw(screen)
 	}
+
+	screen.DrawImage(textArea, nil)
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Num of vertices: %d/%d", len(g.convexHull), len(g.plots)))
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
