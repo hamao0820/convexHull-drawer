@@ -16,10 +16,7 @@ func Scan(points []Point) (convex []Point) {
 
 	// 最も左下の点を探す
 	minP := points[0]
-	points_ := make([]Point, 0, len(points)-1)
-	for _, p := range points[1:] {
-		points_ = append(points_, Sub(p, minP))
-	}
+	points_ := points[1:]
 
 	// 角度でソート
 	sort.Slice(points_, func(i, j int) bool {
