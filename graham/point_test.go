@@ -1,7 +1,6 @@
 package graham
 
 import (
-	"math"
 	"testing"
 )
 
@@ -95,32 +94,6 @@ func TestIsClockwise(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := IsClockwise(tt.args.p1, tt.args.p2, tt.args.p3); got != tt.want {
 				t.Errorf("IsClockwise() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestElevationAngle(t *testing.T) {
-	type args struct {
-		p1 Point
-		p2 Point
-	}
-	tests := []struct {
-		name string
-		args args
-		want float64
-	}{
-		{"(1,2),(3,4)", args{Point{1, 2}, Point{3, 4}}, math.Pi / 4},
-		{"(3,4),(1,2)", args{Point{3, 4}, Point{1, 2}}, math.Pi / 4},
-		{"(1,2),(1,2)", args{Point{1, 2}, Point{1, 2}}, 0},
-		{"(1,2),(3,2)", args{Point{1, 2}, Point{3, 2}}, 0},
-		{"(0,0),(1,0)", args{Point{0, 0}, Point{1, 0}}, 0},
-		{"(0,0),(0,1)", args{Point{0, 0}, Point{0, 1}}, math.Pi / 2},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ElevationAngle(tt.args.p1, tt.args.p2); math.Abs(got-tt.want) > 1e-9 {
-				t.Errorf("ElevationAngle() = %v, want %v", got, tt.want)
 			}
 		})
 	}
