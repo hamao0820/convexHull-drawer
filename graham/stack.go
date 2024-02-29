@@ -1,4 +1,4 @@
-package main
+package graham
 
 type Stack[T any] struct {
 	stack []T
