@@ -4,7 +4,7 @@ import (
 	"sort"
 )
 
-func Scan(points []*Point) (convex []*Point) {
+func Scan[T Pointer](points []T) (convex []T) {
 	// 3点以下ならそのまま返す
 	if len(points) < 3 {
 		return points
@@ -23,10 +23,10 @@ func Scan(points []*Point) (convex []*Point) {
 		return IsClockwise(points_[i], minP, points_[j])
 	})
 
-	points = append([]*Point{minP}, points_...)
+	points = append([]T{minP}, points_...)
 
 	// スタックを使って凸包を求める
-	st := NewStack[*Point]()
+	st := NewStack[T]()
 	// 最初の3点を追加
 	st.Push(points[0])
 	st.Push(points[1])
