@@ -2,6 +2,7 @@ package game
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -28,6 +29,11 @@ func (g *Game) Update() error {
 		if err := g.plots[i].Update(); err != nil {
 			return err
 		}
+	}
+
+	mouseX, mouseY := ebiten.CursorPosition()
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		g.plots = append(g.plots, *NewPlot(mouseX, mouseY))
 	}
 	return nil
 }
