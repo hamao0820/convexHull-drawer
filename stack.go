@@ -22,6 +22,13 @@ func (s *Stack[T]) Top() T {
 	return s.stack[len(s.stack)-1]
 }
 
+func (s *Stack[T]) SemiTop() T {
+	if len(s.stack) == 1 {
+		panic("stack length is 1")
+	}
+	return s.stack[len(s.stack)-2]
+}
+
 func (s *Stack[T]) Len() int {
 	return len(s.stack)
 }
