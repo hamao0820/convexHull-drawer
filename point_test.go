@@ -73,6 +73,31 @@ func TestCross(t *testing.T) {
 	}
 }
 
+func TestIsClockwise(t *testing.T) {
+	type args struct {
+		p1 Point
+		p2 Point
+		p3 Point
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"(1,1),(3,1),(2,2)", args{Point{1, 1}, Point{3, 1}, Point{2, 2}}, false},
+		{"(1,1),(2,2),(3,1)", args{Point{1, 1}, Point{2, 2}, Point{3, 1}}, true},
+		{"(3,1),(2,2),(1,1)", args{Point{3, 1}, Point{2, 2}, Point{1, 1}}, false},
+		{"(1,1),(2,2),(3,3)", args{Point{1, 1}, Point{2, 2}, Point{3, 3}}, false}, // 直線上にある場合はfalse
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsClockwise(tt.args.p1, tt.args.p2, tt.args.p3); got != tt.want {
+				t.Errorf("IsClockwise() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestElevationAngle(t *testing.T) {
 	type args struct {
 		p1 Point

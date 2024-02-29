@@ -29,6 +29,12 @@ func Cross(p1, p2 Point) int {
 	return p1.X*p2.Y - p1.Y*p2.X
 }
 
+// p1->p2->p3が時計回りか
+// p1->p2ベクトルとp1->p3ベクトルの外積が負なら時計回り
+func IsClockwise(p1, p2, p3 Point) bool {
+	return Cross(Sub(p2, p1), Sub(p3, p1)) < 0
+}
+
 // p1からp2(p1<p2)への角度
 func ElevationAngle(p1, p2 Point) float64 {
 	if Le(p2, p1) {
