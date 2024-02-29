@@ -87,7 +87,9 @@ func TestIsClockwise(t *testing.T) {
 		{"(1,1),(3,1),(2,2)", args{Point{1, 1}, Point{3, 1}, Point{2, 2}}, false},
 		{"(1,1),(2,2),(3,1)", args{Point{1, 1}, Point{2, 2}, Point{3, 1}}, true},
 		{"(3,1),(2,2),(1,1)", args{Point{3, 1}, Point{2, 2}, Point{1, 1}}, false},
-		{"(1,1),(2,2),(3,3)", args{Point{1, 1}, Point{2, 2}, Point{3, 3}}, false}, // 直線上にある場合はfalse
+		{"(1,1),(0,0),(3,1)", args{Point{1, 1}, Point{0, 0}, Point{3, 1}}, false},
+		{"(2,2),(0,0),(3,1)", args{Point{2, 2}, Point{0, 0}, Point{3, 1}}, false},
+		{"(1,1),(2,2),(3,3)", args{Point{1, 1}, Point{2, 2}, Point{3, 3}}, true}, // 直線上にある場合は時計回りとする
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
