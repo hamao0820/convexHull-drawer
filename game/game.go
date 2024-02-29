@@ -7,6 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/hamao0820/convexHull-drawer/graham"
 )
 
@@ -31,6 +32,17 @@ func NewGame() *Game {
 	return &Game{
 		plots: plots,
 	}
+}
+
+func (g *Game) DrawConvexHull(screen *ebiten.Image) {
+	if len(g.convexHull) < 2 {
+		return
+	}
+	for i := 0; i < len(g.convexHull)-1; i++ {
+		vector.StrokeLine(screen, float32(g.convexHull[i].X()), float32(g.convexHull[i].Y()), float32(g.convexHull[i+1].X()), float32(g.convexHull[i+1].Y()), 1, color.RGBA{0, 0, 0, 255}, true)
+	}
+
+	vector.StrokeLine(screen, float32(g.convexHull[len(g.convexHull)-1].X()), float32(g.convexHull[len(g.convexHull)-1].Y()), float32(g.convexHull[0].X()), float32(g.convexHull[0].Y()), 1, color.RGBA{0, 0, 0, 255}, true)
 }
 
 func (g *Game) Update() error {
@@ -62,6 +74,8 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.White)
+
+	g.DrawConvexHull(screen)
 	for i := range g.plots {
 		g.plots[i].Draw(screen)
 	}
