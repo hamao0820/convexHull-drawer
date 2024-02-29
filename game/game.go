@@ -46,9 +46,10 @@ func (g *Game) DrawConvexHull(screen *ebiten.Image) {
 }
 
 func (g *Game) Update() error {
-
 	mouseX, mouseY := ebiten.CursorPosition()
+	changed := false
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		changed = true
 		g.plots = append(g.plots, NewPlot(mouseX, mouseY))
 	}
 
@@ -57,6 +58,7 @@ func (g *Game) Update() error {
 			if p.near(mouseX, mouseY) {
 				for i := range g.plots {
 					if g.plots[i].id == p.id {
+						changed = true
 						g.plots = append(g.plots[:i], g.plots[i+1:]...)
 						break
 					}
@@ -71,18 +73,20 @@ func (g *Game) Update() error {
 		g.plots = []*Plot{}
 		g.convexHull = []*Plot{}
 		plotID = 0
+		changed = true
 	}
 
-	convexHull := graham.Scan(g.plots)
+	if changed {
+		g.convexHull = graham.Scan(g.plots)
+	}
+
 	for i := range g.plots {
 		g.plots[i].isConvex = false
 	}
 
-	for i := range convexHull {
-		convexHull[i].isConvex = true
+	for i := range g.convexHull {
+		g.convexHull[i].isConvex = true
 	}
-
-	g.convexHull = convexHull
 
 	for i := range g.plots {
 		if err := g.plots[i].Update(); err != nil {
