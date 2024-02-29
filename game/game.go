@@ -9,18 +9,33 @@ const (
 	ScreenHeight = 480
 )
 
-type Game struct{}
+type Game struct {
+	plots []Plot
+}
 
 func NewGame() *Game {
-	return &Game{}
+	plots := []Plot{}
+	for i := 0; i < 10; i++ {
+		plots = append(plots, *NewPlot(i*30, i*30))
+	}
+	return &Game{
+		plots: plots,
+	}
 }
 
 func (g *Game) Update() error {
+	for i := range g.plots {
+		if err := g.plots[i].Update(); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-
+	for i := range g.plots {
+		g.plots[i].Draw(screen)
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
