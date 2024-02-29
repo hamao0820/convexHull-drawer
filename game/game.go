@@ -66,6 +66,13 @@ func (g *Game) Update() error {
 		}
 	}
 
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		// Reset
+		g.plots = []*Plot{}
+		g.convexHull = []*Plot{}
+		plotID = 0
+	}
+
 	convexHull := graham.Scan(g.plots)
 	for i := range g.plots {
 		g.plots[i].isConvex = false
