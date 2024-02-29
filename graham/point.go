@@ -4,16 +4,24 @@ type Point struct {
 	X, Y int
 }
 
-func Add(p1, p2 Point) Point {
-	return Point{p1.X + p2.X, p1.Y + p2.Y}
+func NewPoint(x, y int) *Point {
+	return &Point{x, y}
 }
 
-func Sub(p1, p2 Point) Point {
-	return Point{p1.X - p2.X, p1.Y - p2.Y}
+func equal(p, p2 *Point) bool {
+	return p.X == p2.X && p.Y == p2.Y
+}
+
+func Add(p1, p2 *Point) *Point {
+	return &Point{p1.X + p2.X, p1.Y + p2.Y}
+}
+
+func Sub(p1, p2 *Point) *Point {
+	return &Point{p1.X - p2.X, p1.Y - p2.Y}
 }
 
 // p1はp2より左下にあるか
-func Le(p1, p2 Point) bool {
+func Le(p1, p2 *Point) bool {
 	if p1.Y < p2.Y {
 		return true
 	}
@@ -23,12 +31,12 @@ func Le(p1, p2 Point) bool {
 	return p1.X < p2.X
 }
 
-func Cross(p1, p2 Point) int {
+func Cross(p1, p2 *Point) int {
 	return p1.X*p2.Y - p1.Y*p2.X
 }
 
 // p1->p2->p3が時計回りか
 // p1->p2ベクトルとp1->p3ベクトルの外積が0以下なら時計回り
-func IsClockwise(p1, p2, p3 Point) bool {
+func IsClockwise(p1, p2, p3 *Point) bool {
 	return Cross(Sub(p2, p1), Sub(p3, p1)) <= 0
 }
