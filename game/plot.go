@@ -9,7 +9,7 @@ import (
 )
 
 type Plot struct {
-	p        graham.Point
+	*graham.Point
 	c        color.Color
 	isConvex bool
 	id       int
@@ -23,8 +23,8 @@ var (
 func NewPlot(x, y int) *Plot {
 	plotID++
 	return &Plot{
-		p:        graham.Point{X: x, Y: y},
-		c:        color.White,
+		Point:    graham.NewPoint(x, y),
+		c:        color.Black,
 		isConvex: false,
 		id:       plotID,
 		r:        4,
@@ -32,9 +32,14 @@ func NewPlot(x, y int) *Plot {
 }
 
 func (p *Plot) Update() error {
+	if p.isConvex {
+		p.c = color.RGBA{255, 0, 0, 255}
+	} else {
+		p.c = color.Black
+	}
 	return nil
 }
 
 func (p *Plot) Draw(screen *ebiten.Image) {
-	vector.DrawFilledCircle(screen, float32(p.p.X), float32(p.p.Y), float32(p.r), p.c, true)
+	vector.DrawFilledCircle(screen, float32(p.X()), float32(p.Y()), float32(p.r), p.c, true)
 }

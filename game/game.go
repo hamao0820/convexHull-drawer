@@ -1,6 +1,8 @@
 package game
 
 import (
+	"image/color"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hamao0820/convexHull-drawer/graham"
@@ -12,45 +14,46 @@ const (
 )
 
 type Game struct {
-	plots []Plot
+	plots      []*Plot
+	convexHull []*Plot
 }
 
 func NewGame() *Game {
-	plots := []Plot{}
-	for i := 0; i < 10; i++ {
-		plots = append(plots, *NewPlot(i*30, i*30))
-	}
+	plots := []*Plot{}
 	return &Game{
 		plots: plots,
 	}
 }
 
 func (g *Game) Update() error {
+
+	mouseX, mouseY := ebiten.CursorPosition()
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		g.plots = append(g.plots, NewPlot(mouseX, mouseY))
+	}
+
+	convexHull := graham.Scan(g.plots)
+	for i := range g.plots {
+		g.plots[i].isConvex = false
+	}
+
+	for i := range convexHull {
+		convexHull[i].isConvex = true
+	}
+
+	g.convexHull = convexHull
+
 	for i := range g.plots {
 		if err := g.plots[i].Update(); err != nil {
 			return err
 		}
 	}
 
-	mouseX, mouseY := ebiten.CursorPosition()
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
-		g.plots = append(g.plots, *NewPlot(mouseX, mouseY))
-	}
-
-	points := []graham.Point{}
-	for i := range g.plots {
-		points = append(points, g.plots[i].p)
-	}
-
-	// convexHull := graham.Scan(points)
-	// for i := range g.plots {
-	// 	g.plots[i].convexHull = convexHull
-	// }
-
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	screen.Fill(color.White)
 	for i := range g.plots {
 		g.plots[i].Draw(screen)
 	}
