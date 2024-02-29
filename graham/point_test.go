@@ -7,18 +7,20 @@ import (
 func TestAdd(t *testing.T) {
 	p1 := NewPoint(1, 2)
 	p2 := NewPoint(3, 4)
-	p3 := Add(p1, p2)
+	p3 := NewPoint(0, 0)
+	p3.Add(p1, p2)
 	if !equal(p3, NewPoint(4, 6)) {
-		t.Errorf("Add failed. Expected (4, 6), got (%d, %d)", p3.X, p3.Y)
+		t.Errorf("Add failed. Expected (4, 6), got (%d, %d)", p3.X(), p3.Y())
 	}
 }
 
 func TestSub(t *testing.T) {
 	p1 := NewPoint(1, 2)
 	p2 := NewPoint(3, 4)
-	p3 := Sub(p1, p2)
+	p3 := NewPoint(0, 0)
+	p3.Sub(p1, p2)
 	if !equal(p3, NewPoint(-2, -2)) {
-		t.Errorf("Sub failed. Expected (-2, -2), got (%d, %d)", p3.X, p3.Y)
+		t.Errorf("Sub failed. Expected (-2, -2), got (%d, %d)", p3.X(), p3.Y())
 	}
 }
 
