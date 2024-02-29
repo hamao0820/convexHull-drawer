@@ -48,3 +48,7 @@ func (p *Plot) Update() error {
 func (p *Plot) Draw(screen *ebiten.Image) {
 	vector.DrawFilledCircle(screen, float32(p.X()), float32(p.Y()), float32(p.r), p.c, true)
 }
+
+func (p *Plot) near(x, y int) bool {
+	return p.X()-p.r < x && x < p.X()+p.r && p.Y()-p.r < y && y < p.Y()+p.r
+}

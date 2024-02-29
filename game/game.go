@@ -52,6 +52,20 @@ func (g *Game) Update() error {
 		g.plots = append(g.plots, NewPlot(mouseX, mouseY))
 	}
 
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonRight) {
+		for _, p := range g.plots {
+			if p.near(mouseX, mouseY) {
+				for i := range g.plots {
+					if g.plots[i].id == p.id {
+						g.plots = append(g.plots[:i], g.plots[i+1:]...)
+						break
+					}
+				}
+				break
+			}
+		}
+	}
+
 	convexHull := graham.Scan(g.plots)
 	for i := range g.plots {
 		g.plots[i].isConvex = false
@@ -68,7 +82,6 @@ func (g *Game) Update() error {
 			return err
 		}
 	}
-
 	return nil
 }
 
