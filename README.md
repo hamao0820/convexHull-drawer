@@ -4,7 +4,11 @@
 
 ## 使い方
 
-### インストール
+github pages で公開しています。
+
+[ConvexHull Drawer](https://hamao0820.github.io/convexHull-drawer/)
+
+ローカルで実行するには Go が必要です。
 
 ```sh
 go run .
